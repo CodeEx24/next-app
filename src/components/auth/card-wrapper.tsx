@@ -28,15 +28,18 @@ export const CardWrapper = ({
   return (
     <Card className="w-[400px] shadow-md">
       <CardHeader>
+        {/* Component Made */}
         <Header label={headerLabel} />
       </CardHeader>
       <CardContent>{children}</CardContent>
       {showSocial && (
         <CardFooter>
+          {/* Component Made */}
           <Social />
         </CardFooter>
       )}
       <CardFooter>
+        {/* Component Made */}
         <BackButton label={backButtonLabel} href={backButtonHref} />
       </CardFooter>
     </Card>
