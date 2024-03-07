@@ -2,8 +2,8 @@
 
 import * as z from 'zod';
 import { LoginSchema } from '@/schemas';
-
 import { useForm } from 'react-hook-form';
+import { useSearchParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Input } from '@/components/ui/input';
@@ -25,6 +25,12 @@ import { login } from '@/actions/login';
 import { useState, useTransition } from 'react';
 
 export const LogInForm = () => {
+  const searchParams = useSearchParams();
+  const urlError =
+    searchParams.get('error') === 'OAuthAccountNotLinked'
+      ? 'Email already in use with different provider!'
+      : '';
+
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
@@ -43,8 +49,9 @@ export const LogInForm = () => {
 
     startTransition(() => {
       login(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
+        setError(data?.error);
+        // TODO: Add when we add 2FA
+        // setSuccess(data?.success);
       });
     });
     // If we want to throw an error message
@@ -103,7 +110,7 @@ export const LogInForm = () => {
             />
           </div>
           <FormSuccess message={success} />
-          <FormError message={error} />
+          <FormError message={error || urlError} />
           <Button type="submit" className="w-full" disabled={isPending}>
             Login
           </Button>

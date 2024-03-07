@@ -10,7 +10,7 @@ Array of routes  that are used for authentication
 This routes will redirect logged in users to /settings
 @type {string[]}
 */
-export const authRoutes = ['/auth/login', '/auth/register'];
+export const authRoutes = ['/auth/login', '/auth/register', '/auth/error'];
 
 /*
  * The prefix for the API authentication routes
