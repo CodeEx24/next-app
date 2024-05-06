@@ -1,17 +1,22 @@
-'use client';
+"use client";
 
-import { FcGoogle } from 'react-icons/fc';
-import { FaGithub } from 'react-icons/fa';
-import { Button } from '@/components/ui/button';
-import { signIn } from 'next-auth/react';
-import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
+import { signIn } from "next-auth/react";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
+import { useSearchParams } from "next/navigation";
+
+import { Button } from "@/components/ui/button";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 export const Social = () => {
-  const onClick = (provider: 'google' | 'github') => {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
+
+  const onClick = (provider: "google" | "github") => {
     signIn(provider, {
-      callbackUrl: DEFAULT_LOGIN_REDIRECT,
+      callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
-  };
+  }
 
   return (
     <div className="flex items-center w-full gap-x-2">
@@ -19,17 +24,17 @@ export const Social = () => {
         size="lg"
         className="w-full"
         variant="outline"
-        onClick={() => onClick('google')}
+        onClick={() => onClick("google")}
       >
-        <FcGoogle className="w-5 h-5" />
+        <FcGoogle className="h-5 w-5" />
       </Button>
       <Button
         size="lg"
         className="w-full"
         variant="outline"
-        onClick={() => onClick('github')}
+        onClick={() => onClick("github")}
       >
-        <FaGithub className="w-5 h-5" />
+        <FaGithub className="h-5 w-5" />
       </Button>
     </div>
   );
